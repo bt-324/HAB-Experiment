@@ -7,8 +7,11 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=5
-User=alarm
+User=root
+WorkingDirectory=/home/alarm/HAB-Experiment 
 ExecStart=/usr/bin/python /home/alarm/HAB-Experiment/logger.py 
+StandardOutput=syslog
+StandardError=syslog
 
 [Install]
 WantedBy=multi-user.target

@@ -1,18 +1,28 @@
 from counter import geiger
 import time 
+from pathlib import Path
+import os
 
 counter = geiger.GeigerCounter()
 
-f = open("geigerResults.txt", "a+")
+data_path = "/home/alarm/HAB-Experiment/geigerResults.txt"
 
-f.write("Geiger results. Date:"datetime.datetime.now()"\n")
+f = open(data_path, "a+")
+
+f.write("Geiger results.\n")
+f.write("uSv/h   CPM   HICPM   LOCPM\n")
 
 while True:
-    #counter.get_cpm()
-    #counter.get_high_cpm()
-    #counter.get_low_cpm()
-    #counter.cpm_to_usv()
-    #print(counter.usv_dose, "uSv/h ", counter.cpm, "CPM ", counter.high_cpm, "HICPM ", counter.low_cpm, "LOCPM")
-    f.write(counter.usv_dose, "uSv/h ", counter.cpm, "CPM ", counter.high_cpm, "HICPM ", counter.low_cpm, "LOCPM")
+    counter.get_cpm()
+    counter.get_high_cpm()
+    counter.get_low_cpm()
+    counter.cpm_to_usv()
+
+    f.write(str(counter.usv_dose) + "   ")
+    f.write(str(counter.cpm) + "   ")
+    f.write(str(counter.high_cpm) + "   ")
+    f.write(str(counter.low_cpm) + "\n")
+
+    os.fsync()
 
 f.close()
